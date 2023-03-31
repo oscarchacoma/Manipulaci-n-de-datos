@@ -1,0 +1,24 @@
+
+module.exports = (sequelize, dataTypes) => {
+
+    const alias = "Model"; //nombre del modelo
+    
+    const cols = {
+        id: {  
+            type: dataTypes.INTEGER(10).UNSIGNED,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false,
+        }
+    }
+
+    let config = {
+        tableName: "Model",
+        timestamps: false,
+    }
+
+
+    const Model = sequelize.define(alias,cols,config)
+
+    return Model;
+}
