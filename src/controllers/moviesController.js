@@ -76,6 +76,54 @@ module.exports = {
         .then(Movie=>{  //capturamos la promesa
             return res.render("moviesEdit",{Movie})
         })
-        .catch(error=> console.log(error))
-    }
+        .catch(error=> console.log(error));
+    },
+    update: function(req,res){
+        const errors = validationResult(req);
+        const MOVIE_ID = req.params.id;
+
+        if(errors.isEmpty()){
+            const { //destructuramos el req.body
+                title, 
+                awards, 
+                release_date, 
+                length, 
+                rating
+            } = req.body;
+
+
+            db.Movie.update({
+                title,
+                awards,
+                release_date,
+                length,
+                rating
+            }, {
+                where:{ //condicion en el segundo objeto
+                    id: MOVIE_ID, //la condicion debe ser que sea el mismo id que se paso por el req.params   
+                },
+            })
+            .then((response)=>{
+                if(response){
+                    return res.redirect(`/movies/detail/${MOVIE_ID}`); // REDIRECCIONA A LA PELICULA QUE SE MODIFICO
+                }else{
+                    throw new Error() //throw es el return para los errores, podemos escribir un string con un msj de error ('mensaje de error)
+                    //redirije a una vista de error en caso de que no se pudo editar
+                }
+            })
+            .catch(error => console.log(error))
+
+        }else{
+            db.Movie.findByPk(MOVIE_ID) //retorna una promesa /// BSCA LA PELICULA QUE SE PIDE.
+            .then(Movie=>{  //capturamos la promesa //UNA VES ENCONTRADA
+                return res.render("moviesEdit",{
+                            Movie,
+                            errors: errors.mapped}) // HAGO EL RETURNT DE LA VISTA 
+            })
+            .catch(error=> console.log(error));
+        }
+
+
+    },
+
 }

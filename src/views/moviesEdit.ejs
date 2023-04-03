@@ -10,11 +10,18 @@
 
 <body>
     <figure>
-        <img src="/img/logo-DH.png" alt="Logo Digital House">
-      </figure>
+     <img src="/img/logo-DH.png" alt="Logo Digital House">
+    </figure>
     <h1 class="titulo">Película a Editar:  <%= Movie.title %></h1>
+    <% if (locals.errors) { %>
+        <ul>
+            <% Object.keys(errors).forEach(element => { %>
+                <li><%- errors[element].msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
     <section class="formulario">
-        <form action="/movies/update/<%= Movie.id %>" method="POST">
+        <form action="/movies/update/<%= Movie.id %>?_method=PUT" method="POST">
             <label for="title">Title </label>
             <p><input type="text" name="title" id="title" value="<%= Movie.title %>" required></p>
             <label for="rating">Rating </label>
