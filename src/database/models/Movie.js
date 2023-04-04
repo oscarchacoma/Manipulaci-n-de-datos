@@ -45,7 +45,9 @@ module.exports = (sequelize, dataTypes) => {
     }
 
 
-    const Movie = sequelize.define(alias,cols,config)
+    const Movie = sequelize.define(alias,cols,config);
+
+    //establesco la relacion .associate Movie.associate = function(modelos){ relaciones }
 
     return Movie;
 }

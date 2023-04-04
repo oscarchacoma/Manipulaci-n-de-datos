@@ -122,8 +122,32 @@ module.exports = {
             })
             .catch(error=> console.log(error));
         }
+    },
+    delete: function(req, res){
+        const MOVIE_ID = req.params.id;
 
+        db.Movie.findByPk(MOVIE_ID)
+        .then(movieToDelete => 
+            res.render(
+                "moviesDelete",
+                {Movie: movieToDelete})
+            )
+            .catch(error => console.log(error));
 
     },
+    destroy: function(req,res){
+        const MOVIE_ID = req.params.id;
+
+        db.Movie.destroy({ //destruimos el registro con la condicion where id sea igual al MOVIE_ID que viene por el params
+            where: {
+                id: MOVIE_ID
+            }
+        })
+        .then(()=>{
+            return res.redirect("/movies")
+        })
+        .catch(error => console.log(error))
+
+    }
 
 }
